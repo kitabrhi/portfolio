@@ -36,9 +36,9 @@ const Footer: React.FC = () => {
 
     const footerLinks = {
         social: [
-            { icon: <Github className="w-5 h-5" />, href: "https://github.com/votre-profil", label: "GitHub" },
-            { icon: <Linkedin className="w-5 h-5" />, href: "https://linkedin.com/in/votre-profil", label: "LinkedIn" },
-            { icon: <Mail className="w-5 h-5" />, href: "mailto:votre@email.com", label: "Email" }
+            { icon: <Github className="w-5 h-5" />, href: "https://github.com/kitabrhi", label: "GitHub" },
+            { icon: <Linkedin className="w-5 h-5" />, href: "https://www.linkedin.com/in/youssef-kitabrhi-50477b2a7/", label: "LinkedIn" },
+            { icon: <Mail className="w-5 h-5" />, href: "mailto:kitabrhi.youssef.1@gmail.com", label: "Email" }
         ],
         contact: [
             { icon: <MapPin className="w-5 h-5" />, text: "Casablanca, Maroc" },

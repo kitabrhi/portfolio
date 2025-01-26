@@ -42,8 +42,8 @@ const Footer: React.FC = () => {
         ],
         contact: [
             { icon: <MapPin className="w-5 h-5" />, text: "Casablanca, Maroc" },
-            { icon: <Phone className="w-5 h-5" />, text: "+212 6XX-XXXXXX" },
-            { icon: <Mail className="w-5 h-5" />, text: "contact@youssefkitabrhi.com" }
+            { icon: <Phone className="w-5 h-5" />, text: "+212 771-302847" },
+            { icon: <Mail className="w-5 h-5" />, text: "kitabrhi.youssef.1@gmail.com" }
         ],
         quickLinks: [
             { href: "#about", label: "À propos" },

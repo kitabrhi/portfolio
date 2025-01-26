@@ -6,17 +6,21 @@ const projects = [
     {
         id: 1,
         title: 'Portfolio Personnel',
-        description: 'Portfolio moderne développé avec React, Three.js et TailwindCSS. Interface immersive avec animations 3D et transitions fluides.',
-        image: 'https://images.unsplash.com/photo-1517292987719-0369a794ec0f?auto=format&fit=crop&q=80',
+        description:
+            'Portfolio moderne développé avec React, Three.js et TailwindCSS. Interface immersive avec animations 3D et transitions fluides.',
+        image:
+            'https://images.unsplash.com/photo-1517292987719-0369a794ec0f?auto=format&fit=crop&q=80',
         tags: ['React', 'Three.js', 'TailwindCSS', 'Framer Motion'],
         codeLink: 'https://github.com/votre-utilisateur/portfolio',
-        demoLink: 'https://portfolio.example.com',
+        demoLink: 'https://portfolio-chhy.onrender.com/',
     },
     {
         id: 2,
         title: 'E-Commerce NextGen',
-        description: 'Application e-commerce moderne avec panier dynamique, paiement en ligne et gestion des commandes en temps réel.',
-        image: 'https://images.unsplash.com/photo-1557821552-17105176677c?auto=format&fit=crop&q=80',
+        description:
+            'Application e-commerce moderne avec panier dynamique, paiement en ligne et gestion des commandes en temps réel.',
+        image:
+            'https://images.unsplash.com/photo-1557821552-17105176677c?auto=format&fit=crop&q=80',
         tags: ['React', 'Node.js', 'MongoDB', 'Stripe'],
         codeLink: 'https://github.com/kitabrhi/EcommerceProject_2-main',
         demoLink: 'https://ecommerce.example.com',
@@ -24,28 +28,24 @@ const projects = [
     {
         id: 3,
         title: 'Dashboard Analytics',
-        description: 'Tableau de bord analytique avec visualisations de données en temps réel et rapports personnalisables.',
-        image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80',
+        description:
+            'Tableau de bord analytique avec visualisations de données en temps réel et rapports personnalisables.',
+        image:
+            'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80',
         tags: ['React', 'D3.js', 'Firebase', 'Material-UI'],
-        codeLink: 'https://github.com/votre-utilisateur/dashboard',
-        demoLink: 'https://dashboard.example.com',
+        codeLink: 'https://github.com/kitabrhi/stage',
+        demoLink: 'https://stage-sjza.onrender.com/',
     },
-    {
-        id: 4,
-        title: 'Application de Chat',
-        description: 'Application de messagerie en temps réel avec support pour les messages texte, audio et vidéo.',
-        image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80',
-        tags: ['React', 'WebSocket', 'WebRTC', 'Firebase'],
-        codeLink: 'https://github.com/votre-utilisateur/chat-app',
-        demoLink: 'https://chat.example.com',
-    }
 ];
 
 function Projects() {
     const [hoveredId, setHoveredId] = useState(null);
 
     return (
-        <section id="projects" className="relative min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 py-20 overflow-hidden">
+        <section
+            id="projects"
+            className="relative min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 py-20 overflow-hidden"
+        >
             {/* Background decorative elements */}
             <div className="absolute inset-0 overflow-hidden">
                 <div className="absolute top-1/4 -right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
@@ -59,13 +59,15 @@ function Projects() {
                     transition={{ duration: 0.6 }}
                     className="text-center mb-16 space-y-4"
                 >
-                    <h2 className="text-sm font-medium text-gray-400 uppercase tracking-wider">Réalisations</h2>
+                    <h2 className="text-sm font-medium text-gray-400 uppercase tracking-wider">
+                        Réalisations
+                    </h2>
                     <h3 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-100 to-gray-400">
                         Mes Projets
                     </h3>
                 </motion.div>
 
-                <div className="grid md:grid-cols-2 gap-8">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {projects.map((project, index) => (
                         <motion.div
                             key={project.id}
@@ -74,7 +76,7 @@ function Projects() {
                             transition={{ duration: 0.5, delay: index * 0.1 }}
                             onMouseEnter={() => setHoveredId(project.id)}
                             onMouseLeave={() => setHoveredId(null)}
-                            className="group relative bg-gray-800/50 backdrop-blur-xl rounded-xl overflow-hidden border border-gray-700/50"
+                            className="group relative bg-gray-800/60 backdrop-blur-xl rounded-xl overflow-hidden border border-gray-700/50 hover:scale-105 transform transition-all duration-500"
                         >
                             {/* Project Image with Overlay */}
                             <div className="relative h-64 overflow-hidden">
@@ -86,7 +88,9 @@ function Projects() {
                                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300"></div>
 
                                 {/* Hover Actions */}
-                                <div className={`absolute inset-0 flex items-center justify-center gap-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300`}>
+                                <div
+                                    className={`absolute inset-0 flex items-center justify-center gap-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
+                                >
                                     <a
                                         href={project.codeLink}
                                         target="_blank"
@@ -114,9 +118,7 @@ function Projects() {
                                     ) : (
                                         <Sparkles className="w-5 h-5 text-yellow-400" />
                                     )}
-                                    <h3 className="text-xl font-bold text-white">
-                                        {project.title}
-                                    </h3>
+                                    <h3 className="text-xl font-bold text-white">{project.title}</h3>
                                 </div>
 
                                 <p className="text-gray-400 text-sm leading-relaxed">
@@ -129,8 +131,8 @@ function Projects() {
                                             key={tagIndex}
                                             className="px-3 py-1 text-xs font-medium text-gray-300 bg-gray-700/50 rounded-full border border-gray-600/50"
                                         >
-                                            {tag}
-                                        </span>
+                      {tag}
+                    </span>
                                     ))}
                                 </div>
                             </div>

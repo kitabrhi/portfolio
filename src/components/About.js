@@ -222,8 +222,8 @@ function About() {
                             className="flex flex-wrap gap-4"
                         >
                             <a
-                                href="/cv.pdf"
-                                download
+                                href="/assets/CV_youssef_KITABRHI.pdf"                                download
+
                                 className="group relative px-8 py-3 bg-gray-900 text-white rounded-lg font-medium
                                          overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-gray-900/20"
                             >

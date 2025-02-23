@@ -1,176 +1,120 @@
 import React, { useState, useEffect } from "react";
+import { Menu, X, Code, Home } from "lucide-react";
 
 function Header() {
     const [isOpen, setIsOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
 
-    // Détecter si l'utilisateur a défilé la page
     useEffect(() => {
         const handleScroll = () => {
-            if (window.scrollY > 50) {
-                setIsScrolled(true);
-            } else {
-                setIsScrolled(false);
-            }
+            setIsScrolled(window.scrollY > 50);
         };
         window.addEventListener("scroll", handleScroll);
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-        };
+        return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    // Fonction pour faire défiler la page en haut (scrollToTop)
     const scrollToTop = () => {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth", // Défilement fluide
-        });
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        setIsOpen(false);
     };
 
-    // Animation sur clic
-    const handleLinkClick = (e, targetId) => {
-        e.preventDefault(); // Empêcher le comportement par défaut du lien
+    const handleLinkClick = (e: React.MouseEvent, targetId: string) => {
+        e.preventDefault();
         const targetElement = document.querySelector(targetId);
         if (targetElement) {
-            // Ajouter une animation visuelle au clic (par exemple, opacité réduite)
-            targetElement.style.transition = "opacity 0.3s ease";
-            targetElement.style.opacity = "0.5";
-            setTimeout(() => {
-                targetElement.style.opacity = "1";
-            }, 300);
-
-            // Défilement fluide vers l'élément ciblé
             targetElement.scrollIntoView({ behavior: "smooth", block: "start" });
+            setIsOpen(false);
         }
     };
 
     return (
         <header
-            className={`fixed w-full top-0 z-50 backdrop-blur-lg ${
-                isScrolled ? "bg-blue-600/80 shadow-lg" : "bg-transparent"
-            } transition-all duration-300`}
+            className={`fixed w-full top-0 z-50 transition-all duration-300 ${
+                isScrolled
+                    ? "bg-blue-600/95 shadow-lg backdrop-blur-sm"
+                    : "bg-transparent"
+            }`}
         >
-            <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-                {/* Logo */}
-                <div className="text-2xl font-bold">
-                    <a
-                        href="#home" // Ajoute un #home pour le lien
-                        className="hover:text-gray-300"
-                        onClick={(e) => {
-                            e.preventDefault();
-                            scrollToTop(); // Appelle la fonction scrollToTop
-                        }} // Gère le clic pour revenir au début de la page
-                    >
-                        MonPortfolio
-                    </a>
-                </div>
+            <div className="container mx-auto px-4 sm:px-6 py-4">
+                <div className="flex justify-between items-center">
+                    {/* Logo */}
+                    <div className="flex items-center space-x-2">
+                        <a
+                            href="#home"
+                            className="flex items-center space-x-2 text-white hover:text-blue-200 transition-colors duration-200"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                scrollToTop();
+                            }}
+                        >
+                            <Code className="w-6 h-6" />
+                            <span className="text-xl font-bold">MonPortfolio</span>
+                        </a>
+                    </div>
 
-                {/* Menu desktop */}
-                <nav className="hidden md:flex space-x-6">
-                    <a
-                        href="#about"
-                        className="hover:text-gray-300 transition"
-                        onClick={(e) => handleLinkClick(e, "#about")}
-                    >
-                        À propos
-                    </a>
-                    <a
-                        href="#projects"
-                        className="hover:text-gray-300 transition"
-                        onClick={(e) => handleLinkClick(e, "#projects")}
-                    >
-                        Projets
-                    </a>
-                    <a
-                        href="#skills"
-                        className="hover:text-gray-300 transition"
-                        onClick={(e) => handleLinkClick(e, "#skills")}
-                    >
-                        Compétences
-                    </a>
-                    <a
-                        href="#contact"
-                        className="hover:text-gray-300 transition"
-                        onClick={(e) => handleLinkClick(e, "#contact")}
-                    >
-                        Contact
-                    </a>
-                </nav>
+                    {/* Desktop Navigation */}
+                    <nav className="hidden md:flex items-center space-x-8">
+                        {[
+                            ["À propos", "#about"],
+                            ["Projets", "#projects"],
+                            ["Compétences", "#skills"],
+                            ["Contact", "#contact"],
+                        ].map(([label, href]) => (
+                            <a
+                                key={href}
+                                href={href}
+                                className="text-white hover:text-blue-200 transition-colors duration-200 text-sm font-medium"
+                                onClick={(e) => handleLinkClick(e, href)}
+                            >
+                                {label}
+                            </a>
+                        ))}
+                    </nav>
 
-                {/* Burger Menu Button (mobile) */}
-                <button
-                    onClick={() => setIsOpen(!isOpen)}
-                    className="md:hidden focus:outline-none"
-                >
-                    <svg
-                        className="w-6 h-6"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
+                    {/* Mobile Menu Button */}
+                    <button
+                        onClick={() => setIsOpen(!isOpen)}
+                        className="md:hidden p-2 rounded-lg hover:bg-blue-700/50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        aria-label="Toggle menu"
                     >
                         {isOpen ? (
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M6 18L18 6M6 6l12 12"
-                            />
+                            <X className="w-6 h-6 text-white" />
                         ) : (
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M4 6h16M4 12h16M4 18h16"
-                            />
+                            <Menu className="w-6 h-6 text-white" />
                         )}
-                    </svg>
-                </button>
-            </div>
+                    </button>
+                </div>
 
-            {/* Menu mobile */}
-            {isOpen && (
-                <nav className="md:hidden bg-blue-700/90 backdrop-blur-lg">
-                    <ul className="space-y-4 px-6 py-4">
-                        <li>
-                            <a
-                                href="#about"
-                                className="block hover:text-gray-300"
-                                onClick={(e) => handleLinkClick(e, "#about")}
-                            >
-                                À propos
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="#projects"
-                                className="block hover:text-gray-300"
-                                onClick={(e) => handleLinkClick(e, "#projects")}
-                            >
-                                Projets
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="#skills"
-                                className="block hover:text-gray-300"
-                                onClick={(e) => handleLinkClick(e, "#skills")}
-                            >
-                                Compétences
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                href="#contact"
-                                className="block hover:text-gray-300"
-                                onClick={(e) => handleLinkClick(e, "#contact")}
-                            >
-                                Contact
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-            )}
+                {/* Mobile Navigation */}
+                <div
+                    className={`md:hidden transition-all duration-300 ease-in-out ${
+                        isOpen
+                            ? "max-h-64 opacity-100"
+                            : "max-h-0 opacity-0 pointer-events-none"
+                    }`}
+                >
+                    <nav className="pt-4 pb-6">
+                        <ul className="space-y-4">
+                            {[
+                                ["À propos", "#about"],
+                                ["Projets", "#projects"],
+                                ["Compétences", "#skills"],
+                                ["Contact", "#contact"],
+                            ].map(([label, href]) => (
+                                <li key={href}>
+                                    <a
+                                        href={href}
+                                        className="block text-white hover:text-blue-200 transition-colors duration-200 text-sm font-medium py-2"
+                                        onClick={(e) => handleLinkClick(e, href)}
+                                    >
+                                        {label}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    </nav>
+                </div>
+            </div>
         </header>
     );
 }

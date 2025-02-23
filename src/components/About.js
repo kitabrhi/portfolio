@@ -233,7 +233,7 @@ function About() {
                             className="flex flex-wrap gap-4"
                         >
                             <motion.a
-                                href="/assets/Youssef_Kitabrhi.pdf"
+                                href="/assets/Youssef.Kitabrhi.pdf"
                                 download
                                 className="group relative px-8 py-3 bg-gray-900 text-white rounded-lg font-medium
                                          overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-gray-900/20"

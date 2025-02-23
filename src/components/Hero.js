@@ -221,7 +221,7 @@ const Hero = () => {
                                 </span>
                             </a>
                             <a
-                                href="/assets/CV_youssef_KITABRHI.pdf"                                download
+                                href="/assets/YoussefKitabrhi.pdf"                                download
                                 className="group relative px-8 py-3 bg-gray-800 text-white rounded-lg font-medium
                                          overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-yellow-400/10
                                          border border-gray-700"
@@ -289,7 +289,7 @@ const Hero = () => {
                                 />
                                 <div className="relative group">
                                     <img
-                                        src="/assets/IMG_6258.jpeg"
+                                        src="/assets/IMG_5301.jpg"
                                         alt="Youssef KITABRHI"
                                         className="rounded-full object-cover w-full h-full shadow-2xl
                                                  border-4 border-yellow-400/50 group-hover:border-yellow-400

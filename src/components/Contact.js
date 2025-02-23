@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import emailjs from "emailjs-com";
-import { Send, Loader2 } from "lucide-react";
+import { Send, Loader2, Mail, MessageSquare, User, CheckCircle, XCircle } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const InputField = ({
                         id,
@@ -13,9 +14,18 @@ const InputField = ({
                         isTextArea = false,
                         error,
                         onBlur,
+                        icon: Icon
                     }) => (
-    <div className="space-y-1">
+    <motion.div
+        className="space-y-1"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+    >
         <div className="relative">
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                <Icon className="w-5 h-5" />
+            </div>
             {isTextArea ? (
                 <textarea
                     id={id}
@@ -25,7 +35,9 @@ const InputField = ({
                     onBlur={onBlur}
                     rows={5}
                     required
-                    className={`w-full bg-gray-700/50 border border-gray-600 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 placeholder-transparent peer resize-none ${error ? "border-red-500 focus:ring-red-500" : ""}`}
+                    className={`w-full bg-gray-800/40 border border-gray-600 rounded-lg pl-12 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all duration-300 placeholder-transparent peer resize-none backdrop-blur-sm
+                    ${error ? "border-red-500 focus:ring-red-500/50" : "hover:border-gray-500"}
+                    `}
                     placeholder={placeholder}
                     aria-invalid={error ? "true" : "false"}
                 />
@@ -38,20 +50,37 @@ const InputField = ({
                     onChange={onChange}
                     onBlur={onBlur}
                     required
-                    className={`w-full bg-gray-700/50 border border-gray-600 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 placeholder-transparent peer ${error ? "border-red-500 focus:ring-red-500" : ""}`}
+                    className={`w-full bg-gray-800/40 border border-gray-600 rounded-lg pl-12 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition-all duration-300 placeholder-transparent peer backdrop-blur-sm
+                    ${error ? "border-red-500 focus:ring-red-500/50" : "hover:border-gray-500"}
+                    `}
                     placeholder={placeholder}
                     aria-invalid={error ? "true" : "false"}
                 />
             )}
             <label
                 htmlFor={id}
-                className={`absolute left-4 -top-2.5 bg-gray-900 px-2 text-sm transition-all ${error ? "text-red-500" : "text-gray-400 peer-focus:text-blue-500"} peer-placeholder-shown:top-4 peer-placeholder-shown:bg-transparent peer-placeholder-shown:text-base peer-focus:-top-2.5 peer-focus:text-sm peer-focus:bg-gray-900`}
+                className={`absolute left-12 -top-2.5 bg-gray-900 px-2 text-sm transition-all
+                ${error ? "text-red-500" : "text-gray-400 peer-focus:text-blue-500"}
+                peer-placeholder-shown:top-4 peer-placeholder-shown:bg-transparent peer-placeholder-shown:text-base
+                peer-focus:-top-2.5 peer-focus:text-sm peer-focus:bg-gray-900`}
             >
                 {label}
             </label>
         </div>
-        {error && <p className="text-red-500 text-sm pl-1" role="alert">{error}</p>}
-    </div>
+        <AnimatePresence>
+            {error && (
+                <motion.p
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="text-red-500 text-sm pl-1"
+                    role="alert"
+                >
+                    {error}
+                </motion.p>
+            )}
+        </AnimatePresence>
+    </motion.div>
 );
 
 const Contact = () => {
@@ -63,8 +92,16 @@ const Contact = () => {
     });
     const [errors, setErrors] = useState({});
     const [formStatus, setFormStatus] = useState(null);
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
-    // Validate each field dynamically
+    useEffect(() => {
+        if (formStatus === "success") {
+            setShowSuccessMessage(true);
+            const timer = setTimeout(() => setShowSuccessMessage(false), 5000);
+            return () => clearTimeout(timer);
+        }
+    }, [formStatus]);
+
     const validateField = (name, value) => {
         let errorMessage = "";
         if (name === "name" && !value.trim()) {
@@ -101,16 +138,14 @@ const Contact = () => {
             setIsSubmitting(true);
             setFormStatus("submitting");
 
-            // Sending email via EmailJS with your Template ID and Service ID
             const result = await emailjs.sendForm(
-                "service_hpakz8s", // Your Service ID (Gmail configured service)
-                "template_9b6yzk9", // Your Template ID
-                e.target,           // Form element
-                "XJxqhOT1910SZmViN" // Your Public API Key (Replace this with your actual API Key)
+                "service_hpakz8s",
+                "template_9b6yzk9",
+                e.target,
+                "XJxqhOT1910SZmViN"
             );
 
             console.log("Message sent:", result.text);
-            // Reset form and show success status
             setFormData({ name: "", email: "", message: "" });
             setErrors({});
             setFormStatus("success");
@@ -125,8 +160,6 @@ const Contact = () => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
-
-        // Validate field on change
         const error = validateField(name, value);
         setErrors((prev) => ({ ...prev, [name]: error }));
     };
@@ -142,20 +175,60 @@ const Contact = () => {
             id="contact"
             className="relative min-h-screen bg-gradient-to-bl from-gray-900 via-gray-800 to-gray-900 text-white py-20 overflow-hidden"
         >
-            <div className="container mx-auto px-6 lg:px-20">
-                <div className="relative flex flex-col lg:flex-row items-center justify-between gap-16">
-                    {/* Form Section */}
-                    <div className="lg:w-1/2 w-full">
-                        <div className="space-y-6 mb-12">
-                            <h2 className="text-5xl font-extrabold leading-tight bg-gradient-to-r from-white via-blue-200 to-blue-400 text-transparent bg-clip-text">
-                                Démarrons votre projet
-                            </h2>
-                            <p className="text-gray-400 text-lg leading-relaxed">
-                                Vous avez une idée brillante ? Parlons-en ! Je suis là pour vous aider à la concrétiser.
-                            </p>
-                        </div>
+            {/* Animated background elements */}
+            <div className="absolute inset-0 overflow-hidden">
+                <div className="absolute top-1/4 -right-20 w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-3xl" />
+                <div className="absolute bottom-1/4 -left-20 w-[600px] h-[600px] bg-purple-500/10 rounded-full blur-3xl" />
+            </div>
 
-                        <form onSubmit={handleSubmit} className="bg-gray-800/50 p-8 rounded-xl shadow-xl space-y-6 backdrop-blur-sm">
+            <motion.div
+                className="container mx-auto px-6 lg:px-20 relative z-10"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+            >
+                <div className="max-w-4xl mx-auto">
+                    <div className="text-center space-y-4 mb-12">
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.5 }}
+                            className="inline-flex items-center gap-2 bg-blue-500/10 px-4 py-2 rounded-full"
+                        >
+                            <span className="h-2 w-2 rounded-full bg-blue-400 animate-pulse" />
+                            <span className="text-sm font-medium text-blue-300">Disponible pour de nouveaux projets</span>
+                            <span className="h-2 w-2 rounded-full bg-blue-400 animate-pulse" />
+                        </motion.div>
+
+                        <motion.h2
+                            className="text-5xl font-extrabold leading-tight bg-gradient-to-r from-white via-blue-200 to-blue-400 text-transparent bg-clip-text"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: 0.2 }}
+                        >
+                            Démarrons votre projet
+                        </motion.h2>
+
+                        <motion.p
+                            className="text-gray-400 text-lg leading-relaxed max-w-2xl mx-auto"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: 0.3 }}
+                        >
+                            Vous avez une idée brillante ? Parlons-en ! Je suis là pour vous aider à la concrétiser.
+                        </motion.p>
+                    </div>
+
+                    <motion.div
+                        className="relative"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.4 }}
+                    >
+                        <form
+                            onSubmit={handleSubmit}
+                            className="bg-gray-800/30 p-8 rounded-2xl shadow-xl space-y-6 backdrop-blur-sm border border-gray-700/50"
+                        >
                             <InputField
                                 id="name"
                                 name="name"
@@ -165,6 +238,7 @@ const Contact = () => {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 error={errors.name}
+                                icon={User}
                             />
                             <InputField
                                 id="email"
@@ -176,6 +250,7 @@ const Contact = () => {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 error={errors.email}
+                                icon={Mail}
                             />
                             <InputField
                                 id="message"
@@ -187,38 +262,65 @@ const Contact = () => {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 error={errors.message}
+                                icon={MessageSquare}
                             />
 
-                            <button
+                            <motion.button
                                 type="submit"
                                 disabled={isSubmitting}
                                 className="group w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold py-4 px-6 rounded-lg shadow-lg hover:from-blue-700 hover:to-blue-800 transform hover:scale-[1.02] transition-all duration-300 ease-in-out disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 relative overflow-hidden"
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
                             >
-                                <span className="absolute inset-0 bg-gradient-to-r from-blue-400 to-blue-600 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></span>
+                                <span className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-blue-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                                 {isSubmitting ? (
                                     <>
                                         <Loader2 className="w-5 h-5 animate-spin" />
                                         <span>Envoi en cours...</span>
                                     </>
                                 ) : formStatus === "success" ? (
-                                    <>
+                                    <motion.div
+                                        initial={{ scale: 0 }}
+                                        animate={{ scale: 1 }}
+                                        className="flex items-center gap-2"
+                                    >
+                                        <CheckCircle className="w-5 h-5 text-green-400" />
                                         <span>Message envoyé avec succès !</span>
-                                    </>
+                                    </motion.div>
                                 ) : formStatus === "error" ? (
-                                    <>
-                                        <span className="text-red-500">Une erreur est survenue</span>
-                                    </>
+                                    <motion.div
+                                        initial={{ scale: 0 }}
+                                        animate={{ scale: 1 }}
+                                        className="flex items-center gap-2 text-red-400"
+                                    >
+                                        <XCircle className="w-5 h-5" />
+                                        <span>Une erreur est survenue</span>
+                                    </motion.div>
                                 ) : (
                                     <>
                                         <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                                         <span>Envoyer le message</span>
                                     </>
                                 )}
-                            </button>
+                            </motion.button>
                         </form>
-                    </div>
+
+                        <AnimatePresence>
+                            {showSuccessMessage && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -20 }}
+                                    className="absolute top-4 right-4 bg-green-500/20 text-green-400 px-4 py-2 rounded-lg backdrop-blur-sm border border-green-500/30 flex items-center gap-2"
+                                >
+                                    <CheckCircle className="w-4 h-4" />
+                                    Message envoyé avec succès !
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </motion.div>
                 </div>
-            </div>
+            </motion.div>
         </section>
     );
 };

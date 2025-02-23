@@ -11,6 +11,17 @@ function About() {
 
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
+    // Fonction de défilement fluide
+    const scrollToSection = (sectionId) => {
+        const element = document.querySelector(sectionId);
+        if (element) {
+            element.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+            });
+        }
+    };
+
     useEffect(() => {
         const handleMouseMove = (e) => {
             if (sphereRef.current) {
@@ -221,30 +232,34 @@ function About() {
                             variants={itemVariants}
                             className="flex flex-wrap gap-4"
                         >
-                            <a
-                                href="/assets/CV_youssef_KITABRHI.pdf"                                download
-
+                            <motion.a
+                                href="/assets/YoussefKitabrhi.pdf"
+                                download
                                 className="group relative px-8 py-3 bg-gray-900 text-white rounded-lg font-medium
                                          overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-gray-900/20"
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
                             >
                                 <span className="absolute inset-0 bg-gray-800 transform origin-left -translate-x-full group-hover:translate-x-0 transition-transform duration-300" />
                                 <span className="relative flex items-center gap-2">
                                     Télécharger CV
                                     <Download className="w-4 h-4 transform group-hover:translate-y-1 transition-transform" />
                                 </span>
-                            </a>
-                            <a
-                                href="#contact"
+                            </motion.a>
+                            <motion.button
+                                onClick={() => scrollToSection('#contact')}
                                 className="group relative px-8 py-3 bg-white text-gray-900 rounded-lg font-medium
                                          overflow-hidden transition-all duration-300 hover:shadow-lg
                                          border border-gray-200"
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
                             >
                                 <span className="absolute inset-0 bg-gray-50 transform origin-left -translate-x-full group-hover:translate-x-0 transition-transform duration-300" />
                                 <span className="relative flex items-center gap-2">
                                     Me Contacter
                                     <Mail className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
                                 </span>
-                            </a>
+                            </motion.button>
                         </motion.div>
                     </motion.div>
 

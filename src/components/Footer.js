@@ -12,10 +12,10 @@ import {
     ArrowUp
 } from 'lucide-react';
 
-const Footer: React.FC = () => {
+const Footer = () => {
     const currentYear = new Date().getFullYear();
 
-    const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+    const handleSmoothScroll = (e, targetId) => {
         e.preventDefault();
         const element = document.querySelector(targetId);
         if (element) {

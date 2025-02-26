@@ -289,7 +289,7 @@ const Hero = () => {
                                 />
                                 <div className="relative group">
                                     <img
-                                        src="/assets/IMG_5301.jpg"
+                                        src="/assets/ysf.jpeg"
                                         alt="Youssef KITABRHI"
                                         className="rounded-full object-cover w-full h-full shadow-2xl
                                                  border-4 border-yellow-400/50 group-hover:border-yellow-400

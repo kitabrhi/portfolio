@@ -220,18 +220,7 @@ const Hero = () => {
                                     <Mail className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
                                 </span>
                             </a>
-                            <a
-                                href="/assets/ysf.pdf"                                download
-                                className="group relative px-8 py-3 bg-gray-800 text-white rounded-lg font-medium
-                                         overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-yellow-400/10
-                                         border border-gray-700"
-                            >
-                                <span className="absolute inset-0 bg-yellow-400/10 transform origin-left -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-out" />
-                                <span className="relative flex items-center gap-2">
-                                    Télécharger CV
-                                    <Download className="w-4 h-4 transform group-hover:translate-y-1 transition-transform" />
-                                </span>
-                            </a>
+
                         </motion.div>
 
                         <motion.div

@@ -169,18 +169,7 @@ function About() {
                                 </span>,
                                 je m'efforce de créer des expériences web exceptionnelles qui allient esthétique et fonctionnalité.
                             </p>
-                            <p className="text-gray-600 leading-relaxed">
-                                Ma stack technique inclut{' '}
-                                {['React', 'TypeScript', 'TailwindCSS'].map((tech, index) => (
-                                    <span key={tech} className="relative inline-block group mx-1">
-                                        <span className="relative z-10 font-semibold text-gray-800">
-                                            {tech}
-                                        </span>
-                                        <span className="absolute inset-x-0 bottom-0 h-2 bg-blue-400/20 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
-                                    </span>
-                                ))}
-                                , me permettant de développer des applications modernes et performantes.
-                            </p>
+
                         </motion.div>
 
                         <div className="grid gap-6">
@@ -233,7 +222,7 @@ function About() {
                             className="flex flex-wrap gap-4"
                         >
                             <motion.a
-                                href="/assets/ysf.pdf"
+                                href="/assets/Youssef__Kitabrhi.pdf"
                                 download
                                 className="group relative px-8 py-3 bg-gray-900 text-white rounded-lg font-medium
                                          overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-gray-900/20"

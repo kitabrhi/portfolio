@@ -221,7 +221,7 @@ const Hero = () => {
                                 </span>
                             </a>
                             <a
-                                href="/assets/Youssef.Kitabrhi.pdf"                                download
+                                href="/assets/ysf.pdf"                                download
                                 className="group relative px-8 py-3 bg-gray-800 text-white rounded-lg font-medium
                                          overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-yellow-400/10
                                          border border-gray-700"
